@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/todo.js"></script>
+<link href="css/todo.css" rel="stylesheet">
+</head>
+
+<body ng-app="todoApp">
+
+<div class="container" ng-controller="TabController as tab">
+    <h2 align="center">TODO</h2>
+    
+    <ul class="nav nav-tabs nav-justified">
+        <li ng-class="{active:tab.checkTab(1)}" role="presentation">
+            <a href="#" ng-click="tab.setTab(1)">Active</a>
+        </li>
+        <li ng-class="{active:tab.checkTab(2)}" role="presentation">
+            <a href="#" ng-click="tab.setTab(2)">Completed</a>
+        </li>
+        <li ng-class="{active:tab.checkTab(3)}" role="presentation">
+            <a href="#" ng-click="tab.setTab(3)">All</a>
+        </li>
+    </ul>
+    
+    <div ng-controller="TodoController as todoCtrl">
+        <div ng-show="tab.checkTab(1)">
+            <ul class="list-group">
+                <li ng-repeat="item in todoList | filter:search" 
+                    ng-if="item.todoCompleted === false" class="list-group-item">
+                    <div class="input-group">
+                        <span>
+                            <input type="checkbox" ng-model="item.todoCompleted">
+                        </span>
+                        &nbsp;&nbsp;{{item.todoText}}
+                        <span><a ng-click="delete(item)" class="close">&nbsp;&times;</a></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div ng-show="tab.checkTab(2)">
+            <ul class="list-group">
+                <li ng-repeat="item in todoList | filter:search" 
+                    ng-if="item.todoCompleted === true" class="list-group-item">
+                    <span class="done-true">&nbsp;&nbsp;{{item.todoText}}</span>
+                    <span><a ng-click="delete(item)" class="close">&nbsp;&times;</a></span>
+                </li>
+            </ul>
+        </div>
+        
+        <div ng-show="tab.checkTab(3)">
+            <ul class="list-group">
+                <li ng-repeat="item in todoList | filter:search" class="list-group-item">
+                    <div class="input-group">
+                        <span>
+                            <input type="checkbox" ng-model="item.todoCompleted">
+                        </span>
+                        <span class="done-{{item.todoCompleted}}">&nbsp;&nbsp;{{item.todoText}}</span>
+                        <span><a ng-click="delete(item)" class="close">&nbsp;&times;</a></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <br><br>
+        <div class="form-group">
+            <input type="text" placeholder="search your task" class="form-control" ng-model="search">
+        </div>
+        
+        <br>
+        <form>
+            <div class="input-group">
+              <input name="todo.todoText" ng-model="todoText" type="text" class="form-control" 
+                     placeholder="add new todo here" ng-keypress="enterKeyPressed($event)">
+              <span class="input-group-btn">
+                <button ng-click="add(todoText)" class="btn btn-primary" type="button">
+                    Add
+                </button>
+              </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
