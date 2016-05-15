@@ -1,6 +1,6 @@
 # Simple-TODO-APP
 
-simple todo app using angularjs
+###simple todo app using angularjs
 
 * Initial page with empty “TODO list”
 * User has the ability to Add/Delete a TODO item
